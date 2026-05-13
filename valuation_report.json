@@ -1,0 +1,35 @@
+{
+    "update_time": "2026-05-13 02:43:10.222615",
+    "results": [
+        {
+            "index": "标普500",
+            "percentile": "99.64%",
+            "target_weight": 0.32,
+            "suggested_pos_ratio": "15.0% of target"
+        },
+        {
+            "index": "纳斯达克100",
+            "percentile": "98.39%",
+            "target_weight": 0.32,
+            "suggested_pos_ratio": "15.0% of target"
+        },
+        {
+            "index": "日经225",
+            "percentile": "100.0%",
+            "target_weight": 0.06,
+            "suggested_pos_ratio": "15.0% of target"
+        },
+        {
+            "index": "英国富时100",
+            "percentile": "82.34%",
+            "target_weight": 0.06,
+            "suggested_pos_ratio": "15.0% of target"
+        },
+        {
+            "index": "恒生指数",
+            "percentile": "86.78%",
+            "target_weight": 0.03,
+            "suggested_pos_ratio": "15.0% of target"
+        }
+    ]
+}
