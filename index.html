@@ -2,23 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>全球组合监控</title>
+    <title>全球指数仓位监控</title>
     <style>
-        body { font-family: sans-serif; padding: 30px; background: #f4f7f6; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #333; border-left: 4px solid #007bff; padding-left: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
-        th { background: #007bff; color: white; }
-        .high { color: #d9534f; font-weight: bold; }
-        .low { color: #5cb85c; font-weight: bold; }
-        .time { font-size: 14px; color: #888; margin-bottom: 10px; }
+        body { font-family: -apple-system, sans-serif; padding: 25px; background: #f8f9fa; }
+        .dashboard { max-width: 1100px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; font-size: 22px; margin-bottom: 5px; }
+        .time { font-size: 13px; color: #7f8c8d; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #edf2f7; text-align: left; }
+        th { background: #007bff; color: white; font-weight: 500; }
+        .high { color: #e74c3c; font-weight: bold; } /* 高估红色 */
+        .low { color: #27ae60; font-weight: bold; }  /* 低估绿色 */
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="dashboard">
         <h1>全球指数估值与仓位建议</h1>
-        <p class="time" id="time"></p>
+        <p class="time" id="last-update">数据加载中...</p>
         <table>
             <thead>
                 <tr>
@@ -29,31 +29,35 @@
                     <th>建议仓位(占目标)</th>
                 </tr>
             </thead>
-            <tbody id="content"></tbody>
+            <tbody id="table-content"></tbody>
         </table>
     </div>
 
     <script>
-        async function update() {
-            const res = await fetch('valuation_report.json?t=' + Date.now());
-            const data = await res.json();
-            document.getElementById('time').innerText = "最后更新时间: " + data.update_time;
-            
-            let html = '';
-            data.results.forEach(item => {
-                const isHigh = parseFloat(item.percentile) > 80;
-                // 注意：后端只传数字，这里统一添加一个 %
-                html += `<tr>
-                    <td>${item.index}</td>
-                    <td>${item.method}</td>
-                    <td>${item.percentile}</td>
-                    <td>${item.target_weight}%</td>
-                    <td class="${isHigh ? 'high' : 'low'}">${item.suggested_pos}%</td>
-                </tr>`;
-            });
-            document.getElementById('content').innerHTML = html;
+        async function fetchData() {
+            try {
+                const response = await fetch('valuation_report.json?t=' + Date.now());
+                const data = await response.json();
+                document.getElementById('last-update').innerText = "最后更新时间: " + data.update_time;
+                
+                const container = document.getElementById('table-content');
+                container.innerHTML = data.results.map(item => {
+                    const pVal = parseFloat(item.percentile);
+                    const statusClass = pVal > 80 ? 'high' : 'low';
+                    
+                    return `<tr>
+                        <td>${item.index}</td>
+                        <td>${item.method}</td>
+                        <td>${item.percentile}</td>
+                        <td>${item.target_weight}%</td>
+                        <td class="${statusClass}">${item.suggested_pos}%</td>
+                    </tr>`;
+                }).join('');
+            } catch (e) {
+                console.error("加载失败", e);
+            }
         }
-        update();
+        fetchData();
     </script>
 </body>
 </html>
