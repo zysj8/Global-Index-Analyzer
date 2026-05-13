@@ -2,62 +2,104 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>全球组合监控</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球指数多维数据监控</title>
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; padding: 30px; background: #f8f9fa; }
-        .card { max-width: 1100px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h1 { color: #2c3e50; font-size: 22px; border-left: 5px solid #007bff; padding-left: 15px; }
-        .time { font-size: 14px; color: #95a5a6; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; border-bottom: 1px solid #edf2f7; text-align: left; }
-        th { background: #007bff; color: white; font-weight: 500; }
-        .high { color: #e74c3c; font-weight: bold; }
-        .low { color: #2ecc71; font-weight: bold; }
+        :root {
+            --up-color: #e74c3c; /* 上涨红 */
+            --down-color: #2ecc71; /* 下跌绿 */
+            --text-main: #2c3e50;
+        }
+        body { font-family: -apple-system, system-ui, sans-serif; padding: 20px; background: #f4f7f6; color: var(--text-main); }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { font-size: 24px; margin-bottom: 5px; color: #34495e; border-left: 6px solid #3498db; padding-left: 15px; }
+        .update-time { font-size: 13px; color: #95a5a6; margin-bottom: 25px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th { background: #3498db; color: white; padding: 15px 10px; text-align: left; font-weight: 500; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f0f0f0; }
+        tr:hover { background-color: #f9fbff; }
+
+        /* 涨跌幅颜色类 */
+        .val-up { color: var(--up-color); font-weight: bold; }
+        .val-down { color: var(--down-color); font-weight: bold; }
+        .val-neutral { color: #95a5a6; }
+        
+        .percentile-bar { font-family: monospace; background: #ebf2f7; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>全球指数估值与仓位建议</h1>
-        <p class="time" id="time-display"></p>
-        <table>
-            <thead>
-                <tr>
-                    <th>指数名称</th>
-                    <th>估值方法</th>
-                    <th>估值百分位</th>
-                    <th>目标权重</th>
-                    <th>建议仓位(占目标)</th>
-                </tr>
-            </thead>
-            <tbody id="content-body"></tbody>
-        </table>
-    </div>
 
-    <script>
-        async function updateDashboard() {
-            try {
-                const res = await fetch('valuation_report.json?t=' + Date.now());
-                const data = await res.json();
-                document.getElementById('time-display').innerText = "最后更新时间: " + data.update_time;
-                
-                let html = '';
-                data.results.forEach(item => {
-                    const isHigh = parseFloat(item.percentile) > 80;
-                    // 在此层级拼接 % 符号，确保后端数据纯净
-                    html += `<tr>
-                        <td>${item.index}</td>
-                        <td>${item.method}</td>
-                        <td>${item.percentile}</td>
-                        <td>${item.target_weight}%</td>
-                        <td class="${isHigh ? 'high' : 'low'}">${item.suggested_pos}%</td>
-                    </tr>`;
-                });
-                document.getElementById('content-body').innerHTML = html;
-            } catch (e) {
-                console.error("加载数据失败", e);
-            }
+<div class="container">
+    <h1>全球指数多维数据监控</h1>
+    <p class="update-time" id="last-update">正在加载数据...</p>
+    
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>指数名称</th>
+                <th>当前点位</th>
+                <th>前日</th>
+                <th>20日(本月)</th>
+                <th>年初至今</th>
+                <th>1年</th>
+                <th>3年</th>
+                <th>价格分位</th>
+                <th>目标权重</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- 数据将通过 JS 动态填充 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // 自动判定颜色类名的辅助函数
+    function getColorClass(valStr) {
+        if (!valStr || valStr === "---") return "val-neutral";
+        if (valStr.startsWith('+')) return "val-up";
+        if (valStr.startsWith('-')) return "val-down";
+        return "";
+    }
+
+    async function fetchData() {
+        try {
+            // 添加时间戳参数防止浏览器缓存 JSON
+            const response = await fetch('valuation_report.json?t=' + Date.now());
+            const data = await response.json();
+            
+            document.getElementById('last-update').innerText = "最后更新时间: " + data.update_time;
+            
+            const tbody = document.getElementById('table-body');
+            let rowsHtml = '';
+            
+            data.results.forEach(item => {
+                rowsHtml += `
+                    <tr>
+                        <td><strong>${item.index}</strong></td>
+                        <td>${item.price}</td>
+                        <td class="${getColorClass(item.daily)}">${item.daily}</td>
+                        <td class="${getColorClass(item.m20)}">${item.m20}</td>
+                        <td class="${getColorClass(item.ytd)}">${item.ytd}</td>
+                        <td class="${getColorClass(item.y1)}">${item.y1}</td>
+                        <td class="${getColorClass(item.y3)}">${item.y3}</td>
+                        <td><span class="percentile-bar">${item.percentile}</span></td>
+                        <td>${item.target}%</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = rowsHtml;
+        } catch (error) {
+            console.error("加载数据失败:", error);
+            document.getElementById('last-update').innerText = "数据加载失败，请检查 valuation_report.json 是否存在。";
         }
-        updateDashboard();
-    </script>
+    }
+
+    // 页面加载完成后立即执行
+    window.onload = fetchData;
+</script>
+
 </body>
 </html>
