@@ -1,35 +1,69 @@
 {
-    "update_time": "2026-05-13 02:43:10.222615",
+    "update_time": "2026-05-13 02:50:50",
     "results": [
         {
             "index": "标普500",
+            "current_val": 7400.96,
             "percentile": "99.64%",
-            "target_weight": 0.32,
-            "suggested_pos_ratio": "15.0% of target"
+            "target_weight": "32.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "4.8%"
         },
         {
             "index": "纳斯达克100",
+            "current_val": 29064.8,
             "percentile": "98.39%",
-            "target_weight": 0.32,
-            "suggested_pos_ratio": "15.0% of target"
+            "target_weight": "32.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "4.8%"
         },
         {
             "index": "日经225",
+            "current_val": 62930.2,
             "percentile": "100.0%",
-            "target_weight": 0.06,
-            "suggested_pos_ratio": "15.0% of target"
+            "target_weight": "6.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "0.9%"
         },
         {
             "index": "英国富时100",
+            "current_val": 10265.3,
             "percentile": "82.34%",
-            "target_weight": 0.06,
-            "suggested_pos_ratio": "15.0% of target"
+            "target_weight": "6.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "0.9%"
+        },
+        {
+            "index": "法国CAC40",
+            "current_val": 7979.92,
+            "percentile": "64.89%",
+            "target_weight": "4.0%",
+            "suggested_pos_ratio": "40.0%",
+            "final_pos": "1.6%"
+        },
+        {
+            "index": "德国DAX",
+            "current_val": 23954.93,
+            "percentile": "86.34%",
+            "target_weight": "4.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "0.6%"
         },
         {
             "index": "恒生指数",
-            "percentile": "86.78%",
-            "target_weight": 0.03,
-            "suggested_pos_ratio": "15.0% of target"
+            "current_val": 26271.13,
+            "percentile": "86.95%",
+            "target_weight": "3.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "0.45%"
+        },
+        {
+            "index": "恒生科技",
+            "current_val": 5040.36,
+            "percentile": "nan%",
+            "target_weight": "3.0%",
+            "suggested_pos_ratio": "15.0%",
+            "final_pos": "0.45%"
         }
     ]
 }
