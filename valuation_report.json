@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-05-13 03:36:12",
+    "update_time": "2026-05-13 03:43:02",
     "results": [
         {
             "index": "标普500",
@@ -45,29 +45,29 @@
         },
         {
             "index": "沪深300",
-            "method": "获取失败",
-            "percentile": "0%",
+            "method": "价格分位",
+            "percentile": "81.96%",
             "target_weight": "5.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "中证500",
-            "method": "获取失败",
-            "percentile": "0%",
+            "method": "价格分位",
+            "percentile": "98.77%",
             "target_weight": "5.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "恒生指数",
             "method": "价格分位",
-            "percentile": "87.04%",
+            "percentile": "87.32%",
             "target_weight": "3.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "恒生科技",
             "method": "价格分位",
-            "percentile": "55.14%",
+            "percentile": "55.58%",
             "target_weight": "3.0",
             "suggested_pos": "40.0"
         }
