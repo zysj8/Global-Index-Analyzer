@@ -2,47 +2,49 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>全球指数估值监控</title>
+    <title>全球指数估值仪表盘</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        body { font-family: -apple-system, system-ui, sans-serif; padding: 40px; background: #f8f9fa; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        th, td { padding: 15px; border-bottom: 1px solid #eee; text-align: left; }
         th { background: #007bff; color: white; }
-        .high-risk { color: red; font-weight: bold; }
-        .low-risk { color: green; font-weight: bold; }
+        .high { color: #dc3545; font-weight: bold; }
+        .low { color: #28a745; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>全球指数估值与仓位建议</h1>
-    <p id="update-time"></p>
-    <table id="result-table">
+    <p id="time"></p>
+    <table>
         <thead>
             <tr>
                 <th>指数名称</th>
+                <th>估值方法</th>
                 <th>估值百分位</th>
                 <th>目标权重</th>
-                <th>建议仓位比例</th>
+                <th>建议仓位(占目标)</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="content"></tbody>
     </table>
 
     <script>
-        // 自动读取同目录下的数据文件
         fetch('valuation_report.json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                document.getElementById('update-time').innerText = "最后更新时间: " + data.update_time;
-                const tbody = document.querySelector('#result-table tbody');
+                document.getElementById('time').innerText = "最后更新: " + data.update_time;
+                let html = '';
                 data.results.forEach(item => {
-                    const row = `<tr>
+                    const isHigh = parseFloat(item.percentile) > 80;
+                    html += `<tr>
                         <td>${item.index}</td>
+                        <td>${item.method}</td>
                         <td>${item.percentile}</td>
-                        <td>${(item.target_weight * 100).toFixed(0)}%</td>
-                        <td class="${parseFloat(item.percentile) > 80 ? 'high-risk' : 'low-risk'}">${item.suggested_pos_ratio}</td>
+                        <td>${item.target_weight}</td>
+                        <td class="${isHigh ? 'high' : 'low'}">${item.suggested_pos}%</td>
                     </tr>`;
-                    tbody.innerHTML += row;
                 });
+                document.getElementById('content').innerHTML = html;
             });
     </script>
 </body>
