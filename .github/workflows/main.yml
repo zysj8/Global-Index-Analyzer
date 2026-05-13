@@ -3,24 +3,24 @@ name: Global Index Auto Analyzer
 on:
   schedule:
     - cron: '0 21 * * *' # 每天北京时间早上5点运行
-  workflow_dispatch:      # 允许手动点击按钮运行
+  workflow_dispatch:      # 允许手动运行
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # 允许 Action 修改仓库文件
+      contents: write    # 关键：授予推送到仓库的权限
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # 升级至 v4，解决弃用警告
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # 升级至 v5
         with:
           python-version: '3.9'
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt
+        run: pip install yfinance akshare pandas
 
       - name: Run Script
         run: python main.py
