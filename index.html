@@ -4,63 +4,59 @@
     <meta charset="UTF-8">
     <title>全球指数多维数据监控</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
-        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { border-left: 5px solid #3498db; padding-left: 15px; font-size: 22px; }
-        .time { font-size: 13px; color: #888; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #3498db; color: white; padding: 12px; text-align: left; }
+        body { font-family: -apple-system, sans-serif; padding: 20px; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h1 { border-left: 6px solid #007bff; padding-left: 15px; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #007bff; color: white; padding: 12px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #eee; }
-        .up { color: #e74c3c; font-weight: bold; }
-        .down { color: #2ecc71; font-weight: bold; }
+        .up { color: #dc3545; font-weight: bold; }   /* 红涨 */
+        .down { color: #28a745; font-weight: bold; } /* 绿跌 */
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>全球指数多维数据监控</h1>
-    <p class="time" id="update-time">正在抓取数据...</p>
-    <table>
-        <thead>
-            <tr>
-                <th>指数名称</th><th>当前点位</th><th>前日</th><th>20日(本月)</th>
-                <th>年初至今</th><th>1年</th><th>3年</th><th>价格分位</th><th>目标权重</th>
-            </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-    </table>
-</div>
-
-<script>
-    function getStyle(val) {
-        if (!val || val === "---") return "";
-        return val.startsWith('+') ? 'class="up"' : (val.startsWith('-') ? 'class="down"' : '');
-    }
-
-    async function loadData() {
-        try {
-            const response = await fetch('valuation_report.json?t=' + Date.now());
-            const data = await response.json();
-            document.getElementById('update-time').innerText = "最后更新时间: " + data.update_time;
-            
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = data.results.map(item => `
+    <div class="container">
+        <h1>全球指数多维数据监控</h1>
+        <p id="time" style="color: #888; font-size: 13px;"></p>
+        <table>
+            <thead>
                 <tr>
-                    <td><strong>${item.name}</strong></td>
-                    <td>${item.price}</td>
-                    <td ${getStyle(item.daily)}>${item.daily}</td>
-                    <td ${getStyle(item.m20)}>${item.m20}</td>
-                    <td ${getStyle(item.ytd)}>${item.ytd}</td>
-                    <td ${getStyle(item.y1)}>${item.y1}</td>
-                    <td ${getStyle(item.y3)}>${item.y3}</td>
-                    <td>${item.percentile}</td>
-                    <td>${item.target_weight}%</td>
+                    <th>指数名称</th><th>当前点位</th><th>前日</th><th>20日</th><th>年初至今</th><th>1年</th><th>3年</th><th>价格分位</th><th>目标权重</th>
                 </tr>
-            `).join('');
-        } catch (e) {
-            console.error("解析错误:", e);
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const getCls = (v) => v.startsWith('+') ? 'class="up"' : (v.startsWith('-') ? 'class="down"' : '');
+
+        async function update() {
+            try {
+                // 关键：?t= 时间戳防止加载缓存的旧 JSON
+                const res = await fetch('valuation_report.json?t=' + Date.now());
+                const data = await res.json();
+                document.getElementById('time').innerText = "最后更新: " + data.update_time;
+                
+                document.getElementById('tbody').innerHTML = data.results.map(item => `
+                    <tr>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.price}</td>
+                        <td ${getCls(item.d1)}>${item.d1}</td>
+                        <td ${getCls(item.m20)}>${item.m20}</td>
+                        <td ${getCls(item.ytd)}>${item.ytd}</td>
+                        <td ${getCls(item.y1)}>${item.y1}</td>
+                        <td ${getCls(item.y3)}>${item.y3}</td>
+                        <td>${item.p_val}</td>
+                        <td>${item.weight}</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error("加载失败:", e);
+                document.getElementById('time').innerText = "数据加载失败，请检查 valuation_report.json 是否存在。";
+            }
         }
-    }
-    window.onload = loadData;
-</script>
+        window.onload = update;
+    </script>
 </body>
 </html>
