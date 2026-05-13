@@ -2,53 +2,171 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>全球指数看板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球指数估值与仓位监控</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-        .card { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { background: #007bff; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        .pos-text { color: #d9534f; font-weight: bold; }
+        :root {
+            --primary-color: #007bff;
+            --danger-color: #d9534f;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #222;
+        }
+
+        .update-time {
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+        }
+
+        tr:hover {
+            background-color: #f9fbff;
+        }
+
+        .suggested-pos {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            th, td { padding: 10px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>全球指数估值与仓位建议</h2>
-        <p id="time" style="color: #999; font-size: 13px;"></p>
-        <table>
-            <thead>
-                <tr>
-                    <th>指数名称</th><th>估值方法</th><th>估值百分位</th><th>目标权重</th><th>建议仓位</th>
-                </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-    </div>
 
-    <script>
-        async function load() {
-            try {
-                // 加时间戳防止缓存
-                const res = await fetch('valuation_report.json?t=' + Date.now());
-                const data = await res.json();
-                document.getElementById('time').innerText = "最后更新: " + data.update_time;
-                
-                const tbody = document.getElementById('table-body');
-                tbody.innerHTML = data.results.map(item => `
-                    <tr>
-                        <td>${item.display_name}</td>
-                        <td>${item.method}</td>
-                        <td>${item.percentile_str}</td>
-                        <td>${item.target_weight}%</td>
-                        <td class="pos-text">${item.suggested_pos}%</td>
-                    </tr>
-                `).join('');
-            } catch (e) {
-                console.error("渲染失败", e);
-            }
+<div class="container">
+    <header>
+        <h1>全球指数估值与仓位建议看板</h1>
+        <div id="time" class="update-time">正在载入数据...</div>
+    </header>
+
+    <div id="loading-view" class="loading">正在从服务器同步最新估值...</div>
+
+    <table id="data-table" style="display: none;">
+        <thead>
+            <tr>
+                <th>指数名称</th>
+                <th>估值方法</th>
+                <th>估值百分位</th>
+                <th>目标权重</th>
+                <th>建议仓位</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- 数据将通过 JavaScript 注入 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    /**
+     * 实现逻辑：
+     * 1. 使用 Fetch API 获取 Python 生成的 JSON
+     * 2. 解析数据并动态构建 HTML 表格行
+     * 3. 统一处理百分号显示，修复冗余问题
+     */
+    async function initDashboard() {
+        const timeEl = document.getElementById('time');
+        const loadingEl = document.getElementById('loading-view');
+        const tableEl = document.getElementById('data-table');
+        const tbody = document.getElementById('table-body');
+
+        try {
+            // 抗缓存处理：在请求末尾添加随机时间戳
+            const response = await fetch('valuation_report.json?t=' + new Date().getTime());
+            
+            if (!response.ok) throw new Error('无法加载数据文件');
+            
+            const data = await response.json();
+
+            // 更新时间显示
+            timeEl.innerText = `最后更新: ${data.update_time}`;
+
+            // 构建表格行
+            tbody.innerHTML = data.results.map(item => `
+                <tr>
+                    <td><strong>${item.display_name}</strong></td>
+                    <td>${item.method}</td>
+                    <td>${item.percentile_val}%</td>
+                    <td>${item.target_weight}%</td>
+                    <td class="suggested-pos">${item.suggested_pos}%</td>
+                </tr>
+            `).join('');
+
+            // 切换视图
+            loadingEl.style.display = 'none';
+            tableEl.style.display = 'table';
+
+        } catch (error) {
+            console.error('Error:', error);
+            timeEl.innerText = '数据加载失败，请检查 valuation_report.json 是否已生成。';
+            loadingEl.innerText = '加载出错，请查看控制台日志。';
         }
-        window.onload = load;
-    </script>
+    }
+
+    // 页面加载完成后立即执行
+    window.onload = initDashboard;
+</script>
+
 </body>
 </html>
