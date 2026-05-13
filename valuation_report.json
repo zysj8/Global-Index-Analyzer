@@ -1,75 +1,75 @@
 {
-    "update_time": "2026-05-13 03:16:22",
+    "update_time": "2026-05-13 03:26:18",
     "results": [
         {
             "index": "标普500",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "99.64%",
-            "target_weight": "32.0%",
-            "suggested_pos": "15.0%"
+            "target_weight": "32.0",
+            "suggested_pos": "15.0"
         },
         {
             "index": "纳斯达克100",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "98.39%",
-            "target_weight": "32.0%",
-            "suggested_pos": "15.0%"
+            "target_weight": "32.0",
+            "suggested_pos": "15.0"
         },
         {
             "index": "日经225",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "100.0%",
-            "target_weight": "6.0%",
-            "suggested_pos": "15.0%"
+            "target_weight": "6.0",
+            "suggested_pos": "15.0"
         },
         {
             "index": "英国富时100",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "82.34%",
-            "target_weight": "6.0%",
-            "suggested_pos": "15.0%"
+            "target_weight": "6.0",
+            "suggested_pos": "15.0"
         },
         {
             "index": "法国CAC40",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "64.89%",
-            "target_weight": "4.0%",
-            "suggested_pos": "40.0%"
+            "target_weight": "4.0",
+            "suggested_pos": "40.0"
         },
         {
             "index": "德国DAX",
-            "method": "价格百分位",
+            "method": "价格分位",
             "percentile": "86.34%",
-            "target_weight": "4.0%",
-            "suggested_pos": "15.0%"
+            "target_weight": "4.0",
+            "suggested_pos": "15.0"
         },
         {
             "index": "沪深300",
-            "method": "获取异常",
-            "percentile": "---",
-            "target_weight": "5.0%",
+            "method": "获取失败",
+            "percentile": "0%",
+            "target_weight": "5.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "中证500",
-            "method": "获取异常",
-            "percentile": "---",
-            "target_weight": "5.0%",
+            "method": "获取失败",
+            "percentile": "0%",
+            "target_weight": "5.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "恒生指数",
-            "method": "获取异常",
-            "percentile": "---",
-            "target_weight": "3.0%",
+            "method": "价格分位",
+            "percentile": "86.57%",
+            "target_weight": "3.0",
             "suggested_pos": "15.0"
         },
         {
             "index": "恒生科技",
-            "method": "获取异常",
-            "percentile": "---",
-            "target_weight": "3.0%",
-            "suggested_pos": "15.0"
+            "method": "价格分位",
+            "percentile": "54.59%",
+            "target_weight": "3.0",
+            "suggested_pos": "40.0"
         }
     ]
 }
