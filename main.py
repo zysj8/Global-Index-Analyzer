@@ -2,9 +2,10 @@ import pandas as pd
 import yfinance as yf
 import akshare as ak
 import json
+import os
 from datetime import datetime
 
-# 核心配置：明确区分 source 以确保数据准确
+# 1. 核心配置：定义 10 个指数及其目标权重
 INDEX_CONFIG = {
     "SPX": {"name": "标普500", "weight": 0.32, "ticker": "^GSPC", "source": "yf"},
     "NDX": {"name": "纳斯达克100", "weight": 0.32, "ticker": "^NDX", "source": "yf"},
@@ -19,72 +20,71 @@ INDEX_CONFIG = {
 }
 
 def get_valuation_signal(percentile):
-    """根据估值百分位计算梯度"""
+    """仓位管理逻辑：根据估值梯度确定持仓比例"""
     p = float(percentile)
-    if p < 0.2: return 1.0
-    elif p < 0.5: return 0.7
-    elif p < 0.8: return 0.4
-    else: return 0.15
+    if p < 0.2: return 100.0 # 满额
+    elif p < 0.5: return 70.0 # 7成
+    elif p < 0.8: return 40.0 # 4成
+    else: return 15.0 # 高估，仅保留 15% (对应你的减仓策略)
 
 def main():
     results = []
-    print("开始执行全球组合分析...")
+    print(f"[{datetime.now()}] 开始执行数据爬取任务...")
     
     for key, info in INDEX_CONFIG.items():
         try:
-            method = "价格分位"
+            method = "价格百分位"
             pct = 0.0
             
-            # 分源处理数据
             if info['source'] == "ak_pe":
-                # A股抓取 PE (市盈率)
+                # A股 PE 估值抓取
                 df = ak.stock_a_indicator_lg(symbol=info['symbol'])
-                curr = float(df['pe'].iloc[-1])
-                hist = df['pe'].tail(2520).astype(float)
-                pct = (hist < curr).mean()
-                method = "PE分位"
+                curr_pe = float(df['pe'].iloc[-1])
+                hist_pe = df['pe'].tail(2520).astype(float)
+                pct = (hist_pe < curr_pe).mean()
+                method = "PE百分位"
             elif info['source'] == "ak_hk":
-                # 港股抓取历史行情计算
+                # 港股数据抓取 (新浪财经接口)
                 df = ak.stock_hk_index_daily_sina(symbol=info['symbol'])
-                curr = float(df['close'].iloc[-1])
-                hist = df['close'].tail(1250).astype(float)
-                pct = (curr - hist.min()) / (hist.max() - hist.min())
+                curr_price = float(df['close'].iloc[-1])
+                hist_price = df['close'].tail(1250).astype(float)
+                pct = (curr_price - hist_price.min()) / (hist_price.max() - hist_price.min())
             else:
-                # 国际指数抓取 3 年价格区间
+                # 国际市场价格区间抓取
                 data = yf.Ticker(info['ticker'])
                 hist = data.history(period="3y")['Close'].dropna()
-                curr = float(hist.iloc[-1])
-                pct = (curr - hist.min()) / (hist.max() - hist.min())
+                curr_price = float(hist.iloc[-1])
+                pct = (curr_price - hist.min()) / (hist.max() - hist.min())
 
-            signal = get_valuation_signal(pct)
+            signal_val = get_valuation_signal(pct)
             
-            # 解决 NaN 问题的关键：确保所有数值在写入前已转换为字符串或清晰的数字
             results.append({
-                "index": info['name'],
-                "method": method,
+                "index": str(info['name']),
+                "method": str(method),
                 "percentile": f"{round(float(pct) * 100, 2)}%",
-                "target_weight": f"{int(float(info['weight']) * 100)}%",
-                "suggested_pos": f"{round(signal * 100, 1)}%"
+                "target_weight": f"{round(float(info['weight']) * 100, 1)}%",
+                "suggested_pos": f"{round(signal_val, 1)}%" # 确保键名与前端完全一致
             })
         except Exception as e:
-            print(f"处理 {info['name']} 时出错: {e}")
-            # 即使报错也添加一个占位，防止网页显示缺失
+            print(f"数据抓取失败 [{info['name']}]: {e}")
+            # 异常情况下返回兜底数据，确保表格不缺失行
             results.append({
-                "index": info['name'],
-                "method": "获取失败",
-                "percentile": "0%",
-                "target_weight": f"{int(float(info['weight']) * 100)}%",
-                "suggested_pos": "15.0%"
+                "index": str(info['name']),
+                "method": "获取异常",
+                "percentile": "---",
+                "target_weight": f"{round(float(info['weight']) * 100, 1)}%",
+                "suggested_pos": "15.0"
             })
 
-    # 输出 JSON
-    report = {
+    # 输出 JSON 文件
+    report_data = {
         "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "results": results
     }
+    
     with open("valuation_report.json", "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=4)
-    print("分析报告已生成。")
+        json.dump(report_data, f, ensure_ascii=False, indent=4)
+    print("分析报告已成功写入 valuation_report.json")
 
 if __name__ == "__main__":
     main()
