@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>全球指数估值监控</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #007bff; color: white; }
+        .high-risk { color: red; font-weight: bold; }
+        .low-risk { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>全球指数估值与仓位建议</h1>
+    <p id="update-time"></p>
+    <table id="result-table">
+        <thead>
+            <tr>
+                <th>指数名称</th>
+                <th>估值百分位</th>
+                <th>目标权重</th>
+                <th>建议仓位比例</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // 自动读取同目录下的数据文件
+        fetch('valuation_report.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('update-time').innerText = "最后更新时间: " + data.update_time;
+                const tbody = document.querySelector('#result-table tbody');
+                data.results.forEach(item => {
+                    const row = `<tr>
+                        <td>${item.index}</td>
+                        <td>${item.percentile}</td>
+                        <td>${(item.target_weight * 100).toFixed(0)}%</td>
+                        <td class="${parseFloat(item.percentile) > 80 ? 'high-risk' : 'low-risk'}">${item.suggested_pos_ratio}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            });
+    </script>
+</body>
+</html>
