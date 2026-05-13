@@ -1,17 +1,19 @@
 {
-    "update_time": "2026-05-13 04:55:10",
+    "update_time": "2026-05-13 05:09:06",
     "results": [
         {
-            "name": "标普500",
-            "price": 7400.96,
-            "change": "-0.16%",
-            "percentile": "99.51%"
+            "display_name": "标普500",
+            "method": "历史收盘价百分位",
+            "percentile_str": "99.64%",
+            "target_weight": 32.0,
+            "suggested_pos": 0.12
         },
         {
-            "name": "纳斯达克100",
-            "price": 29064.8,
-            "change": "-0.87%",
-            "percentile": "97.91%"
+            "display_name": "纳斯达克100",
+            "method": "历史收盘价百分位",
+            "percentile_str": "98.39%",
+            "target_weight": 32.0,
+            "suggested_pos": 0.51
         }
     ]
 }
