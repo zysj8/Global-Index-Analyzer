@@ -1,19 +1,69 @@
 {
-    "update_time": "2026-05-13 05:09:06",
+    "update_time": "2026-05-13 05:22:44",
     "results": [
         {
             "display_name": "标普500",
-            "method": "历史收盘价百分位",
+            "method": "3年收盘价百分位",
             "percentile_str": "99.64%",
-            "target_weight": 32.0,
-            "suggested_pos": 0.12
+            "target_weight": "32%",
+            "suggested_pos": "0.12%",
+            "status": "Normal"
         },
         {
             "display_name": "纳斯达克100",
-            "method": "历史收盘价百分位",
+            "method": "3年收盘价百分位",
             "percentile_str": "98.39%",
-            "target_weight": 32.0,
-            "suggested_pos": 0.51
+            "target_weight": "32%",
+            "suggested_pos": "0.51%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "日经225",
+            "method": "3年收盘价百分位",
+            "percentile_str": "100.0%",
+            "target_weight": "6%",
+            "suggested_pos": "0.0%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "英国富时100",
+            "method": "3年收盘价百分位",
+            "percentile_str": "82.34%",
+            "target_weight": "6%",
+            "suggested_pos": "1.06%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "法国CAC40",
+            "method": "3年收盘价百分位",
+            "percentile_str": "64.89%",
+            "target_weight": "4%",
+            "suggested_pos": "1.4%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "德国DAX",
+            "method": "3年收盘价百分位",
+            "percentile_str": "86.34%",
+            "target_weight": "4%",
+            "suggested_pos": "0.55%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "恒生指数",
+            "method": "3年收盘价百分位",
+            "percentile_str": "88.2%",
+            "target_weight": "3%",
+            "suggested_pos": "0.35%",
+            "status": "Normal"
+        },
+        {
+            "display_name": "恒生科技",
+            "method": "3年收盘价百分位",
+            "percentile_str": "57.04%",
+            "target_weight": "3%",
+            "suggested_pos": "1.29%",
+            "status": "Normal"
         }
     ]
 }
