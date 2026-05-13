@@ -4,7 +4,7 @@ import yfinance as yf
 import json
 from datetime import datetime
 
-# 1. 你的全球指数组合配置 (共10个)
+# 1. 10个指数的完整精确配置
 INDEX_CONFIG = {
     "SPX": {"name": "标普500", "ticker": "^GSPC", "source": "yf", "weight": 0.32},
     "NDX": {"name": "纳斯达克100", "ticker": "^NDX", "source": "yf", "weight": 0.32},
@@ -20,50 +20,40 @@ INDEX_CONFIG = {
 
 def main():
     results = []
-    print(f"[{datetime.now()}] 正在同步 10 个全球指数数据...")
+    print(f"[{datetime.now()}] 启动修复版数据抓取...")
     
     for key, info in INDEX_CONFIG.items():
         try:
-            # 2. 差异化抓取逻辑
             if info['source'] == "ak":
-                # A股使用东财稳定接口
                 df = ak.index_zh_a_hist(symbol=info['symbol'], period="daily")
                 series = df['收盘'].astype(float)
             else:
-                # 国际指数使用 yfinance (取近3年数据计算分位)
                 series = yf.Ticker(info['ticker']).history(period="3y")['Close'].dropna()
 
             if series.empty: continue
 
             curr = series.iloc[-1]
-            # 3. 计算估值百分位
-            min_val = series.min()
-            max_val = series.max()
+            min_val, max_val = series.min(), series.max()
             p_val = (curr - min_val) / (max_val - min_val)
             
-            # 4. 构建输出字典
+            # --- 逻辑优化：建议仓位 ---
+            # 新逻辑：即使在高位也建议保留部分仓位。公式：目标权重 * (1 - p_val * 0.8)
+            # 这样当 p_val=100% 时，建议仓位仍有 20% 的目标配额，而不是接近 0
+            suggested = info['weight'] * (1 - p_val * 0.8) * 100
+            
             results.append({
                 "display_name": info['name'],
                 "method": "3年收盘价百分位",
-                "percentile_str": f"{round(p_val * 100, 2)}%",
-                "target_weight": f"{int(info['weight'] * 100)}%",
-                "suggested_pos": f"{round(info['weight'] * (1 - p_val) * 100, 2)}%", # 逆向补仓逻辑
-                "status": "Normal"
+                "percentile_val": round(p_val * 100, 2), # 仅输出数值，不带%
+                "target_weight": info['weight'] * 100,     # 仅输出数值
+                "suggested_pos": round(suggested, 2)       # 仅输出数值
             })
-            print(f"成功更新: {info['name']}")
-            
+            print(f"完成: {info['name']}")
         except Exception as e:
-            print(f"!!! 跳过 {info['name']}, 错误原因: {e}")
+            print(f"错误 {info['name']}: {e}")
 
-    # 5. 持久化存储
-    output = {
-        "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "results": results
-    }
-    
     with open("valuation_report.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=4)
-    print(f"\n部署成功：已完成 {len(results)}/10 个指数的更新。")
+        json.dump({"update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "results": results}, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     main()
