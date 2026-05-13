@@ -1,73 +1,58 @@
 import pandas as pd
-import yfinance as yf
 import akshare as ak
+import yfinance as yf
 import json
+import os
 from datetime import datetime
 
-# 核心资产配置：A股统一使用新浪兼容代码
+# 核心资产配置：A股使用东财接口，国际指数使用 yf
 INDEX_CONFIG = {
-    "SPX": {"name": "标普500", "weight": 0.32, "ticker": "^GSPC", "source": "yf"},
-    "NDX": {"name": "纳斯达克100", "weight": 0.32, "ticker": "^NDX", "source": "yf"},
-    "N225": {"name": "日经225", "weight": 0.06, "ticker": "^N225", "source": "yf"},
-    "FTSE": {"name": "英国富时100", "weight": 0.06, "ticker": "^FTSE", "source": "yf"},
-    "FCHI": {"name": "法国CAC40", "weight": 0.04, "ticker": "^FCHI", "source": "yf"},
-    "DAX": {"name": "德国DAX", "weight": 0.04, "ticker": "^GDAXI", "source": "yf"},
-    "CSI300": {"name": "沪深300", "weight": 0.05, "symbol": "sh000300", "source": "ak_sina"},
-    "CSI500": {"name": "中证500", "weight": 0.05, "symbol": "sh000905", "source": "ak_sina"},
-    "HSI": {"name": "恒生指数", "weight": 0.03, "ticker": "^HSI", "source": "yf"},
-    "HSTECH": {"name": "恒生科技", "weight": 0.03, "ticker": "3033.HK", "source": "yf"}
+    "SPX": {"name": "标普500", "ticker": "^GSPC", "source": "yf"},
+    "NDX": {"name": "纳斯达克100", "ticker": "^NDX", "source": "yf"},
+    "CSI300": {"name": "沪深300", "symbol": "000300", "source": "ak_em"}, # 改为东财代码
+    "CSI500": {"name": "中证500", "symbol": "000905", "source": "ak_em"}
 }
-
-def get_valuation_signal(percentile):
-    p = float(percentile)
-    if p < 0.2: return 100.0
-    elif p < 0.5: return 70.0
-    elif p < 0.8: return 40.0
-    else: return 15.0 # 高位减仓策略
 
 def main():
     results = []
-    print(f"[{datetime.now()}] 启动高兼容性抓取任务...")
+    print(f"[{datetime.now()}] 开始部署：数据抓取启动...")
     
     for key, info in INDEX_CONFIG.items():
         try:
-            pct = 0.0
-            method = "价格分位"
-            
-            if info['source'] == "ak_sina":
-                # 使用新浪接口：在海外服务器运行最稳定的 A 股数据源
-                df = ak.stock_zh_index_daily_sina(symbol=info['symbol'])
-                curr = float(df['close'].iloc[-1])
-                hist = df['close'].tail(1250).astype(float) # 近5年
-                pct = (curr - hist.min()) / (hist.max() - hist.min())
+            if info['source'] == "ak_em":
+                # 修复逻辑：使用更稳定的东方财富日频接口
+                df = ak.stock_zh_index_daily_em(symbol=info['symbol'])
+                df['date'] = pd.to_datetime(df['date'])
+                df.set_index('date', inplace=True)
+                series = df['close'].astype(float)
             else:
-                # 国际 & 港股统一使用 yfinance
-                data = yf.Ticker(info['ticker'])
-                hist = data.history(period="3y")['Close'].dropna()
-                curr = float(hist.iloc[-1])
-                pct = (curr - hist.min()) / (hist.max() - hist.min())
+                # 国际指数逻辑保持不变
+                series = yf.Ticker(info['ticker']).history(period="2y")['Close'].dropna()
 
-            signal = get_valuation_signal(pct)
-            results.append({
-                "index": info['name'],
-                "method": method,
-                "percentile": f"{round(float(pct) * 100, 2)}%",
-                "target_weight": str(round(float(info['weight']) * 100, 1)),
-                "suggested_pos": str(round(signal, 1))
-            })
+            curr = series.iloc[-1]
+            prev = series.iloc[-2]
+            
+            # 构建最简 MVP 数据包，确保 index.html 100% 兼容
+            item = {
+                "name": info['name'],
+                "price": round(curr, 2),
+                "change": f"{'+' if curr > prev else ''}{round((curr/prev - 1)*100, 2)}%",
+                "percentile": f"{round(((curr - series.min()) / (series.max() - series.min())) * 100, 2)}%"
+            }
+            results.append(item)
+            print(f"成功获取: {info['name']}")
+
         except Exception as e:
-            print(f"!!! {info['name']} 抓取失败: {e}")
-            results.append({
-                "index": info['name'],
-                "method": "获取失败",
-                "percentile": "---",
-                "target_weight": str(round(float(info['weight']) * 100, 1)),
-                "suggested_pos": "15.0"
-            })
+            print(f"!!! 无法获取 {info['name']}, 错误详情: {e}")
 
-    output = {"update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "results": results}
+    # 写入 JSON 文件
+    output = {
+        "update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "results": results
+    }
     with open("valuation_report.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=4)
+    print("valuation_report.json 已重置并成功更新。")
 
 if __name__ == "__main__":
     main()
