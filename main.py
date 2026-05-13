@@ -4,57 +4,70 @@ import akshare as ak
 import json
 from datetime import datetime
 
-# 1. 核心资产配置
+# 核心资产配置：A股统一使用新浪兼容代码
 INDEX_CONFIG = {
-    "SPX": {"name": "标普500", "ticker": "^GSPC", "source": "yf", "w": 0.32},
-    "NDX": {"name": "纳斯达克100", "ticker": "^NDX", "source": "yf", "w": 0.32},
-    "N225": {"name": "日经225", "ticker": "^N225", "source": "yf", "w": 0.06},
-    "CSI300": {"name": "沪深300", "symbol": "sh000300", "source": "ak_sina", "w": 0.05},
-    "CSI500": {"name": "中证500", "symbol": "sh000905", "source": "ak_sina", "w": 0.05},
-    "HSI": {"name": "恒生指数", "ticker": "^HSI", "source": "yf", "w": 0.03}
+    "SPX": {"name": "标普500", "weight": 0.32, "ticker": "^GSPC", "source": "yf"},
+    "NDX": {"name": "纳斯达克100", "weight": 0.32, "ticker": "^NDX", "source": "yf"},
+    "N225": {"name": "日经225", "weight": 0.06, "ticker": "^N225", "source": "yf"},
+    "FTSE": {"name": "英国富时100", "weight": 0.06, "ticker": "^FTSE", "source": "yf"},
+    "FCHI": {"name": "法国CAC40", "weight": 0.04, "ticker": "^FCHI", "source": "yf"},
+    "DAX": {"name": "德国DAX", "weight": 0.04, "ticker": "^GDAXI", "source": "yf"},
+    "CSI300": {"name": "沪深300", "weight": 0.05, "symbol": "sh000300", "source": "ak_sina"},
+    "CSI500": {"name": "中证500", "weight": 0.05, "symbol": "sh000905", "source": "ak_sina"},
+    "HSI": {"name": "恒生指数", "weight": 0.03, "ticker": "^HSI", "source": "yf"},
+    "HSTECH": {"name": "恒生科技", "weight": 0.03, "ticker": "3033.HK", "source": "yf"}
 }
 
-def calc_pct(curr, prev):
-    if prev == 0 or pd.isna(prev): return "---"
-    res = (curr / prev) - 1
-    return f"{'+' if res > 0 else ''}{round(res * 100, 2)}%"
+def get_valuation_signal(percentile):
+    p = float(percentile)
+    if p < 0.2: return 100.0
+    elif p < 0.5: return 70.0
+    elif p < 0.8: return 40.0
+    else: return 15.0 # 高位减仓策略
 
 def main():
     results = []
-    print(f"[{datetime.now()}] 启动数据分析流程...")
+    print(f"[{datetime.now()}] 启动高兼容性抓取任务...")
     
     for key, info in INDEX_CONFIG.items():
         try:
+            pct = 0.0
+            method = "价格分位"
+            
             if info['source'] == "ak_sina":
-                # A股逻辑
+                # 使用新浪接口：在海外服务器运行最稳定的 A 股数据源
                 df = ak.stock_zh_index_daily_sina(symbol=info['symbol'])
-                df.index = pd.to_datetime(df['date'])
-                series = df['close'].sort_index().astype(float)
+                curr = float(df['close'].iloc[-1])
+                hist = df['close'].tail(1250).astype(float) # 近5年
+                pct = (curr - hist.min()) / (hist.max() - hist.min())
             else:
-                # 国际/港股逻辑
-                series = yf.Ticker(info['ticker']).history(period="4y")['Close'].dropna()
+                # 国际 & 港股统一使用 yfinance
+                data = yf.Ticker(info['ticker'])
+                hist = data.history(period="3y")['Close'].dropna()
+                curr = float(hist.iloc[-1])
+                pct = (curr - hist.min()) / (hist.max() - hist.min())
 
-            curr = series.iloc[-1]
-            # 统一字段名：必须与 index.html 中的 item.xxx 一一对应
-            item = {
-                "name": info['name'],
-                "price": round(curr, 2),
-                "d1": calc_pct(curr, series.iloc[-2]),
-                "m20": calc_pct(curr, series.iloc[-21]) if len(series) >= 21 else "---",
-                "ytd": calc_pct(curr, series[series.index >= pd.Timestamp(datetime.now().year, 1, 1)].iloc[0]),
-                "y1": calc_pct(curr, series.iloc[-251]) if len(series) >= 251 else "---",
-                "y3": calc_pct(curr, series.iloc[-751]) if len(series) >= 751 else "---",
-                "p_val": f"{round(((curr - series.tail(1250).min()) / (series.tail(1250).max() - series.tail(1250).min())) * 100, 2)}%",
-                "weight": f"{round(info['w'] * 100, 1)}%"
-            }
-            results.append(item)
+            signal = get_valuation_signal(pct)
+            results.append({
+                "index": info['name'],
+                "method": method,
+                "percentile": f"{round(float(pct) * 100, 2)}%",
+                "target_weight": str(round(float(info['weight']) * 100, 1)),
+                "suggested_pos": str(round(signal, 1))
+            })
         except Exception as e:
-            print(f"!!! {info['name']} 执行异常: {e}")
+            print(f"!!! {info['name']} 抓取失败: {e}")
+            results.append({
+                "index": info['name'],
+                "method": "获取失败",
+                "percentile": "---",
+                "target_weight": str(round(float(info['weight']) * 100, 1)),
+                "suggested_pos": "15.0"
+            })
 
-    # 保存文件
+    output = {"update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "results": results}
     with open("valuation_report.json", "w", encoding="utf-8") as f:
-        json.dump({"update_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "results": results}, f, ensure_ascii=False, indent=4)
-    print("数据更新成功。")
+        json.dump(output, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     main()
