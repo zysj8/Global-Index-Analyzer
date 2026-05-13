@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-05-13 05:29:40",
+    "update_time": "2026-05-13 06:13:10",
     "results": [
         {
             "display_name": "标普500",
@@ -46,16 +46,16 @@
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 88.15,
+            "percentile_val": 87.32,
             "target_weight": 3.0,
-            "suggested_pos": 0.88
+            "suggested_pos": 0.9
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 56.91,
+            "percentile_val": 56.13,
             "target_weight": 3.0,
-            "suggested_pos": 1.63
+            "suggested_pos": 1.65
         }
     ]
 }
