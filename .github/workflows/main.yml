@@ -2,20 +2,20 @@ name: Global Index Auto Analyzer
 
 on:
   schedule:
-    - cron: '0 21 * * *' # 每天北京时间早上5点运行
-  workflow_dispatch:      # 允许手动运行
+    - cron: '0 21 * * *'
+  workflow_dispatch:
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # 关键：授予推送到仓库的权限
+      contents: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4 # 升级至 v4，解决弃用警告
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # 升级至 v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
