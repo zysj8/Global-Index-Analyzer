@@ -2,46 +2,53 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>全球组合监控</title>
+    <title>全球指数看板</title>
     <style>
-        body { font-family: -apple-system, sans-serif; padding: 20px; background: #f8f9fa; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        .card { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        th { background: #007bff; color: white; }
-        .high { color: #d9534f; font-weight: bold; }
-        .low { color: #5cb85c; font-weight: bold; }
+        th { background: #007bff; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        .pos-text { color: #d9534f; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>全球指数估值与仓位建议</h1>
-        <p id="utime" style="color:#888; font-size:13px;"></p>
+    <div class="card">
+        <h2>全球指数估值与仓位建议</h2>
+        <p id="time" style="color: #999; font-size: 13px;"></p>
         <table>
             <thead>
                 <tr>
                     <th>指数名称</th><th>估值方法</th><th>估值百分位</th><th>目标权重</th><th>建议仓位</th>
                 </tr>
             </thead>
-            <tbody id="content"></tbody>
+            <tbody id="table-body"></tbody>
         </table>
     </div>
+
     <script>
         async function load() {
-            const res = await fetch('valuation_report.json?t=' + Date.now());
-            const data = await res.json();
-            document.getElementById('utime').innerText = "最后更新: " + data.update_time;
-            document.getElementById('content').innerHTML = data.results.map(item => `
-                <tr>
-                    <td>${item.index}</td>
-                    <td>${item.method}</td>
-                    <td>${item.percentile}</td>
-                    <td>${item.target_weight}%</td>
-                    <td class="${parseFloat(item.percentile) > 80 ? 'high' : 'low'}">${item.suggested_pos}%</td>
-                </tr>
-            `).join('');
+            try {
+                // 加时间戳防止缓存
+                const res = await fetch('valuation_report.json?t=' + Date.now());
+                const data = await res.json();
+                document.getElementById('time').innerText = "最后更新: " + data.update_time;
+                
+                const tbody = document.getElementById('table-body');
+                tbody.innerHTML = data.results.map(item => `
+                    <tr>
+                        <td>${item.display_name}</td>
+                        <td>${item.method}</td>
+                        <td>${item.percentile_str}</td>
+                        <td>${item.target_weight}%</td>
+                        <td class="pos-text">${item.suggested_pos}%</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error("渲染失败", e);
+            }
         }
-        load();
+        window.onload = load;
     </script>
 </body>
 </html>
