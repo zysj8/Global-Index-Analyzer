@@ -1,33 +1,33 @@
 {
-    "update_time": "2026-05-17 22:01:00",
+    "update_time": "2026-05-18 22:08:37",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.27,
+            "percentile_val": 97.1,
             "target_weight": 32.0,
-            "suggested_pos": 7.1
+            "suggested_pos": 7.14
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.18,
+            "percentile_val": 96.33,
             "target_weight": 32.0,
-            "suggested_pos": 7.12
+            "suggested_pos": 7.34
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 94.46,
+            "percentile_val": 94.31,
             "target_weight": 6.0,
             "suggested_pos": 1.47
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 80.43,
+            "percentile_val": 83.94,
             "target_weight": 6.0,
-            "suggested_pos": 2.14
+            "suggested_pos": 1.97
         },
         {
             "display_name": "法国CAC40",
