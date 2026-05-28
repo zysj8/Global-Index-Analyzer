@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-05-27 22:46:28",
+    "update_time": "2026-05-28 22:43:43",
     "results": [
         {
             "display_name": "标普500",
@@ -11,51 +11,51 @@
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 99.83,
+            "percentile_val": 100.0,
             "target_weight": 32.0,
-            "suggested_pos": 6.44
+            "suggested_pos": 6.4
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 99.53,
+            "percentile_val": 99.54,
             "target_weight": 6.0,
             "suggested_pos": 1.22
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 88.9,
+            "percentile_val": 86.74,
             "target_weight": 6.0,
-            "suggested_pos": 1.73
+            "suggested_pos": 1.84
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 75.47,
+            "percentile_val": 77.37,
             "target_weight": 4.0,
-            "suggested_pos": 1.58
+            "suggested_pos": 1.52
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.8,
+            "percentile_val": 97.74,
             "target_weight": 4.0,
             "suggested_pos": 0.87
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 81.79,
+            "percentile_val": 79.7,
             "target_weight": 3.0,
-            "suggested_pos": 1.04
+            "suggested_pos": 1.09
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 52.49,
+            "percentile_val": 51.44,
             "target_weight": 3.0,
-            "suggested_pos": 1.74
+            "suggested_pos": 1.77
         }
     ]
 }
