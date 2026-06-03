@@ -1,61 +1,61 @@
 {
-    "update_time": "2026-06-02 23:06:06",
+    "update_time": "2026-06-03 23:09:18",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 100.0,
+            "percentile_val": 98.39,
             "target_weight": 32.0,
-            "suggested_pos": 6.4
+            "suggested_pos": 6.81
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 100.0,
+            "percentile_val": 99.46,
             "target_weight": 32.0,
-            "suggested_pos": 6.4
+            "suggested_pos": 6.54
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 100.0,
+            "percentile_val": 99.45,
             "target_weight": 6.0,
-            "suggested_pos": 1.2
+            "suggested_pos": 1.23
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 84.36,
+            "percentile_val": 85.3,
             "target_weight": 6.0,
-            "suggested_pos": 1.95
+            "suggested_pos": 1.91
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 74.02,
+            "percentile_val": 77.44,
             "target_weight": 4.0,
-            "suggested_pos": 1.63
+            "suggested_pos": 1.52
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 96.11,
+            "percentile_val": 97.24,
             "target_weight": 4.0,
-            "suggested_pos": 0.92
+            "suggested_pos": 0.89
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 80.24,
+            "percentile_val": 85.16,
             "target_weight": 3.0,
-            "suggested_pos": 1.07
+            "suggested_pos": 0.96
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 53.2,
+            "percentile_val": 59.53,
             "target_weight": 3.0,
-            "suggested_pos": 1.72
+            "suggested_pos": 1.57
         }
     ]
 }
