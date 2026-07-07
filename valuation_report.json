@@ -1,40 +1,40 @@
 {
-    "update_time": "2026-07-06 22:20:18",
+    "update_time": "2026-07-07 22:17:39",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.93,
+            "percentile_val": 96.97,
             "target_weight": 32.0,
-            "suggested_pos": 6.93
+            "suggested_pos": 7.18
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 94.18,
+            "percentile_val": 91.01,
             "target_weight": 32.0,
-            "suggested_pos": 7.89
+            "suggested_pos": 8.7
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 93.73,
+            "percentile_val": 93.72,
             "target_weight": 6.0,
             "suggested_pos": 1.5
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 92.92,
+            "percentile_val": 93.3,
             "target_weight": 6.0,
-            "suggested_pos": 1.54
+            "suggested_pos": 1.52
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 93.82,
+            "percentile_val": 92.27,
             "target_weight": 4.0,
-            "suggested_pos": 1.0
+            "suggested_pos": 1.05
         },
         {
             "display_name": "德国DAX",
@@ -46,16 +46,16 @@
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 64.5,
+            "percentile_val": 66.54,
             "target_weight": 3.0,
-            "suggested_pos": 1.45
+            "suggested_pos": 1.4
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 40.77,
+            "percentile_val": 41.88,
             "target_weight": 3.0,
-            "suggested_pos": 2.02
+            "suggested_pos": 1.99
         }
     ]
 }
