@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-07-18 21:57:20",
+    "update_time": "2026-07-19 22:00:22",
     "results": [
         {
             "display_name": "标普500",
@@ -42,6 +42,20 @@
             "percentile_val": 91.13,
             "target_weight": 4.0,
             "suggested_pos": 1.08
+        },
+        {
+            "display_name": "沪深300",
+            "method": "3年收盘价百分位",
+            "percentile_val": 73.35,
+            "target_weight": 5.0,
+            "suggested_pos": 2.07
+        },
+        {
+            "display_name": "中证500",
+            "method": "3年收盘价百分位",
+            "percentile_val": 62.83,
+            "target_weight": 5.0,
+            "suggested_pos": 2.49
         },
         {
             "display_name": "恒生指数",
