@@ -1,19 +1,19 @@
 {
-    "update_time": "2026-07-20 22:07:46",
+    "update_time": "2026-07-21 22:08:32",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 95.23,
+            "percentile_val": 97.12,
             "target_weight": 32.0,
-            "suggested_pos": 7.62
+            "suggested_pos": 7.14
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 87.58,
+            "percentile_val": 90.9,
             "target_weight": 32.0,
-            "suggested_pos": 9.58
+            "suggested_pos": 8.73
         },
         {
             "display_name": "日经225",
@@ -25,37 +25,37 @@
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 89.44,
+            "percentile_val": 91.11,
             "target_weight": 6.0,
-            "suggested_pos": 1.71
+            "suggested_pos": 1.63
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 84.55,
+            "percentile_val": 84.62,
             "target_weight": 4.0,
             "suggested_pos": 1.29
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 91.13,
+            "percentile_val": 91.27,
             "target_weight": 4.0,
             "suggested_pos": 1.08
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 73.82,
+            "percentile_val": 78.28,
             "target_weight": 3.0,
-            "suggested_pos": 1.23
+            "suggested_pos": 1.12
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 44.03,
+            "percentile_val": 47.24,
             "target_weight": 3.0,
-            "suggested_pos": 1.94
+            "suggested_pos": 1.87
         }
     ]
 }
