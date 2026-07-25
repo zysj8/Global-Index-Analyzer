@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-07-24 22:12:01",
+    "update_time": "2026-07-25 22:02:32",
     "results": [
         {
             "display_name": "标普500",
@@ -18,9 +18,9 @@
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 85.79,
+            "percentile_val": 81.46,
             "target_weight": 6.0,
-            "suggested_pos": 1.88
+            "suggested_pos": 2.09
         },
         {
             "display_name": "英国富时100",
@@ -32,30 +32,30 @@
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 82.37,
+            "percentile_val": 86.38,
             "target_weight": 4.0,
-            "suggested_pos": 1.36
+            "suggested_pos": 1.24
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 90.52,
+            "percentile_val": 93.54,
             "target_weight": 4.0,
-            "suggested_pos": 1.1
+            "suggested_pos": 1.01
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 78.8,
+            "percentile_val": 76.9,
             "target_weight": 3.0,
-            "suggested_pos": 1.11
+            "suggested_pos": 1.15
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 46.13,
+            "percentile_val": 44.25,
             "target_weight": 3.0,
-            "suggested_pos": 1.89
+            "suggested_pos": 1.94
         }
     ]
 }
