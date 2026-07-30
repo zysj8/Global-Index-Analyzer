@@ -1,61 +1,54 @@
 {
-    "update_time": "2026-07-29 22:06:05",
+    "update_time": "2026-07-30 22:14:03",
     "results": [
-        {
-            "display_name": "标普500",
-            "method": "3年收盘价百分位",
-            "percentile_val": 91.59,
-            "target_weight": 32.0,
-            "suggested_pos": 8.55
-        },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 79.04,
+            "percentile_val": 84.57,
             "target_weight": 32.0,
-            "suggested_pos": 11.76
+            "suggested_pos": 10.35
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 76.1,
+            "percentile_val": 73.87,
             "target_weight": 6.0,
-            "suggested_pos": 2.35
+            "suggested_pos": 2.45
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 99.94,
+            "percentile_val": 99.64,
             "target_weight": 6.0,
-            "suggested_pos": 1.2
+            "suggested_pos": 1.22
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 91.12,
+            "percentile_val": 88.35,
             "target_weight": 4.0,
-            "suggested_pos": 1.08
+            "suggested_pos": 1.17
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 96.82,
+            "percentile_val": 96.79,
             "target_weight": 4.0,
             "suggested_pos": 0.9
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 79.57,
+            "percentile_val": 83.39,
             "target_weight": 3.0,
-            "suggested_pos": 1.09
+            "suggested_pos": 1.0
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 47.07,
+            "percentile_val": 50.5,
             "target_weight": 3.0,
-            "suggested_pos": 1.87
+            "suggested_pos": 1.79
         }
     ]
 }
