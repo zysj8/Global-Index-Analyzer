@@ -1,19 +1,19 @@
 {
-    "update_time": "2026-08-02 22:01:49",
+    "update_time": "2026-08-03 22:13:27",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 96.56,
+            "percentile_val": 99.73,
             "target_weight": 32.0,
-            "suggested_pos": 7.28
+            "suggested_pos": 6.47
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 85.58,
+            "percentile_val": 88.62,
             "target_weight": 32.0,
-            "suggested_pos": 10.09
+            "suggested_pos": 9.31
         },
         {
             "display_name": "日经225",
@@ -25,9 +25,9 @@
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 98.84,
+            "percentile_val": 98.55,
             "target_weight": 6.0,
-            "suggested_pos": 1.26
+            "suggested_pos": 1.27
         },
         {
             "display_name": "法国CAC40",
