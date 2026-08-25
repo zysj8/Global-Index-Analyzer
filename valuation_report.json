@@ -1,54 +1,54 @@
 {
-    "update_time": "2026-08-24 21:36:33",
+    "update_time": "2026-08-25 21:35:41",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 96.03,
+            "percentile_val": 96.69,
             "target_weight": 32.0,
-            "suggested_pos": 7.42
+            "suggested_pos": 7.25
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 90.11,
+            "percentile_val": 91.23,
             "target_weight": 32.0,
-            "suggested_pos": 8.93
+            "suggested_pos": 8.64
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 84.82,
+            "percentile_val": 83.66,
             "target_weight": 6.0,
-            "suggested_pos": 1.93
+            "suggested_pos": 1.98
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 98.45,
+            "percentile_val": 99.32,
             "target_weight": 6.0,
-            "suggested_pos": 1.27
+            "suggested_pos": 1.23
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 85.86,
+            "percentile_val": 85.14,
             "target_weight": 4.0,
-            "suggested_pos": 1.25
+            "suggested_pos": 1.28
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.16,
+            "percentile_val": 98.52,
             "target_weight": 4.0,
-            "suggested_pos": 0.89
+            "suggested_pos": 0.85
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 84.94,
+            "percentile_val": 81.16,
             "target_weight": 3.0,
-            "suggested_pos": 0.96
+            "suggested_pos": 1.05
         },
         {
             "display_name": "恒生科技",
