@@ -1,19 +1,19 @@
 {
-    "update_time": "2026-09-20 23:08:34",
+    "update_time": "2026-09-21 23:59:44",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 95.97,
+            "percentile_val": 99.07,
             "target_weight": 32.0,
-            "suggested_pos": 7.43
+            "suggested_pos": 6.64
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 93.86,
+            "percentile_val": 98.92,
             "target_weight": 32.0,
-            "suggested_pos": 7.97
+            "suggested_pos": 6.68
         },
         {
             "display_name": "日经225",
