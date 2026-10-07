@@ -1,12 +1,12 @@
 {
-    "update_time": "2026-10-06 01:43:11",
+    "update_time": "2026-10-07 00:34:07",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 99.32,
+            "percentile_val": 100.0,
             "target_weight": 32.0,
-            "suggested_pos": 6.57
+            "suggested_pos": 6.4
         },
         {
             "display_name": "纳斯达克100",
@@ -18,44 +18,44 @@
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 94.52,
+            "percentile_val": 96.02,
             "target_weight": 6.0,
-            "suggested_pos": 1.46
+            "suggested_pos": 1.39
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 88.6,
+            "percentile_val": 89.81,
             "target_weight": 6.0,
-            "suggested_pos": 1.75
+            "suggested_pos": 1.69
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 53.8,
+            "percentile_val": 55.41,
             "target_weight": 4.0,
-            "suggested_pos": 2.28
+            "suggested_pos": 2.23
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 88.93,
+            "percentile_val": 90.57,
             "target_weight": 4.0,
-            "suggested_pos": 1.15
+            "suggested_pos": 1.1
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 69.8,
+            "percentile_val": 71.65,
             "target_weight": 3.0,
-            "suggested_pos": 1.32
+            "suggested_pos": 1.28
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 31.1,
+            "percentile_val": 31.82,
             "target_weight": 3.0,
-            "suggested_pos": 2.25
+            "suggested_pos": 2.24
         }
     ]
 }
