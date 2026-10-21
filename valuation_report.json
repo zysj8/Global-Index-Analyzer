@@ -1,54 +1,54 @@
 {
-    "update_time": "2026-10-20 23:45:41",
+    "update_time": "2026-10-21 23:58:06",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 97.13,
+            "percentile_val": 98.33,
             "target_weight": 32.0,
-            "suggested_pos": 7.14
+            "suggested_pos": 6.83
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 89.87,
+            "percentile_val": 91.81,
             "target_weight": 32.0,
-            "suggested_pos": 8.99
+            "suggested_pos": 8.5
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 82.16,
+            "percentile_val": 80.15,
             "target_weight": 6.0,
-            "suggested_pos": 2.06
+            "suggested_pos": 2.15
         },
         {
             "display_name": "英国富时100",
             "method": "3年收盘价百分位",
-            "percentile_val": 95.97,
+            "percentile_val": 95.09,
             "target_weight": 6.0,
-            "suggested_pos": 1.39
+            "suggested_pos": 1.44
         },
         {
             "display_name": "法国CAC40",
             "method": "3年收盘价百分位",
-            "percentile_val": 55.56,
+            "percentile_val": 54.03,
             "target_weight": 4.0,
-            "suggested_pos": 2.22
+            "suggested_pos": 2.27
         },
         {
             "display_name": "德国DAX",
             "method": "3年收盘价百分位",
-            "percentile_val": 89.48,
+            "percentile_val": 89.35,
             "target_weight": 4.0,
             "suggested_pos": 1.14
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 70.93,
+            "percentile_val": 68.48,
             "target_weight": 3.0,
-            "suggested_pos": 1.3
+            "suggested_pos": 1.36
         },
         {
             "display_name": "恒生科技",
