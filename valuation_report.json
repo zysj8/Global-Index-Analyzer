@@ -1,5 +1,5 @@
 {
-    "update_time": "2026-11-08 00:22:31",
+    "update_time": "2026-11-09 00:42:28",
     "results": [
         {
             "display_name": "标普500",
@@ -18,9 +18,9 @@
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 63.78,
+            "percentile_val": 66.12,
             "target_weight": 6.0,
-            "suggested_pos": 2.94
+            "suggested_pos": 2.83
         },
         {
             "display_name": "英国富时100",
