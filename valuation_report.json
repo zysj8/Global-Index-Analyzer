@@ -1,26 +1,26 @@
 {
-    "update_time": "2026-11-10 03:28:32",
+    "update_time": "2026-11-11 01:13:04",
     "results": [
         {
             "display_name": "标普500",
             "method": "3年收盘价百分位",
-            "percentile_val": 92.11,
+            "percentile_val": 91.25,
             "target_weight": 32.0,
-            "suggested_pos": 8.42
+            "suggested_pos": 8.64
         },
         {
             "display_name": "纳斯达克100",
             "method": "3年收盘价百分位",
-            "percentile_val": 78.93,
+            "percentile_val": 77.87,
             "target_weight": 32.0,
-            "suggested_pos": 11.79
+            "suggested_pos": 12.07
         },
         {
             "display_name": "日经225",
             "method": "3年收盘价百分位",
-            "percentile_val": 71.16,
+            "percentile_val": 71.82,
             "target_weight": 6.0,
-            "suggested_pos": 2.58
+            "suggested_pos": 2.55
         },
         {
             "display_name": "英国富时100",
@@ -46,30 +46,30 @@
         {
             "display_name": "沪深300",
             "method": "3年收盘价百分位",
-            "percentile_val": 64.11,
+            "percentile_val": 64.06,
             "target_weight": 5.0,
             "suggested_pos": 2.44
         },
         {
             "display_name": "中证500",
             "method": "3年收盘价百分位",
-            "percentile_val": 54.81,
+            "percentile_val": 54.83,
             "target_weight": 5.0,
             "suggested_pos": 2.81
         },
         {
             "display_name": "恒生指数",
             "method": "3年收盘价百分位",
-            "percentile_val": 73.63,
+            "percentile_val": 72.94,
             "target_weight": 3.0,
-            "suggested_pos": 1.23
+            "suggested_pos": 1.25
         },
         {
             "display_name": "恒生科技",
             "method": "3年收盘价百分位",
-            "percentile_val": 29.17,
+            "percentile_val": 28.23,
             "target_weight": 3.0,
-            "suggested_pos": 2.3
+            "suggested_pos": 2.32
         }
     ]
 }
